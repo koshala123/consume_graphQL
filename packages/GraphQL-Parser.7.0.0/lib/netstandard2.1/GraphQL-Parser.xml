@@ -1,0 +1,830 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GraphQL-Parser</name>
+    </assembly>
+    <members>
+        <member name="T:GraphQLParser.AST.ASTNode">
+            <summary>
+            Represents a single node in the GraphQL document AST (Abstract Syntax Tree).
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.ASTNode.Kind">
+            <summary>
+            Kind of this node.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.ASTNode.Location">
+            <summary>
+            Location of a node within a document's original text.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.ASTNode.Comment">
+            <summary>
+            Comments for this node if any.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.AST.ASTNodeKind">
+            <summary>
+            The kind of nodes in the GraphQL document AST (Abstract Syntax Tree).
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.Name">
+            <summary>
+            Named thing inside GraphQL document: operations, fields, arguments, types, directives, fragments, and variables.
+            <br/>
+            All names must follow the same grammatical form: [_A-Za-z][_0-9A-Za-z]*
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.IntValue">
+            <summary>
+            An integer number is specified without a decimal point or exponent (ex. 1).
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.FloatValue">
+            <summary>
+            A Float number includes either a decimal point (ex. 1.0) or an exponent (ex. 1e50) or both (ex. 6.0221413e23).
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.StringValue">
+            <summary>
+            Strings are sequences of characters wrapped in double‐quotes ("). (ex. "Hello World").
+            White space and other otherwise‐ignored characters are significant within a string value.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.BooleanValue">
+            <summary>
+            Boolean value. The two keywords true and false represent the two boolean values.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.Directive">
+            <summary>
+            Applied directive. Directives provide a way to describe alternate runtime execution
+            and type validation behavior in a GraphQL document. Directives can be used to describe
+            additional information for types, fields, fragments, operations, etc.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.NullValue">
+            <summary>
+            Null values are represented as the keyword null.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.DirectiveDefinition">
+            <summary>
+            Directive definition. Directives provide a way to describe alternate runtime execution
+            and type validation behavior in a GraphQL document. Directives can be used to describe
+            additional information for types, fields, fragments, operations, etc.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.ASTNodeKind.Comment">
+            <summary>
+            GraphQL source documents may contain single‐line comments, starting with the # marker.
+            A comment can contain any Unicode code point except LineTerminator so a comment always
+            consists of all code points starting with the # character up to but not including the line terminator.
+            Comments behave like white space and may appear after any token, or before a line terminator,
+            and have no significance to the semantic meaning of a GraphQL Document.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLArgument.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLArgument.Name">
+            <inheritdoc/>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLComment">
+            <inheritdoc cref="F:GraphQLParser.AST.ASTNodeKind.Comment"/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLComment.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLComment.Text">
+            <summary>
+            Comment value represented as <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLDirective">
+            <summary>
+            Represents a directive, applied to some GraphQL element.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLDirective.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLDirective.Name">
+            <inheritdoc/>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLDirectiveDefinition">
+            <summary>
+            Represents a directive definition.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLDirectiveDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLDirectiveDefinition.Locations">
+            <summary>
+            Returns a list of locations representing the valid locations this directive may be placed.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLDirectiveDefinition.Repeatable">
+            <summary>
+            Indicates if the directive may be used repeatedly at a single location.
+            <br/><br/>
+            Repeatable directives are often useful when the same directive
+            should be used with different arguments at a single location,
+            especially in cases where additional information needs to be
+            provided to a type or schema extension via a directive
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLDocument">
+            <summary>
+            Represents the root of AST (Abstract Syntax Tree) for GraphQL document.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLDocument.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLDocument.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLEnumTypeDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLEnumTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLEnumValueDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLEnumValueDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFieldDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFieldDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFieldSelection.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFieldSelection.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFieldSelection.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFragmentDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFragmentDefinition.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFragmentSpread.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFragmentSpread.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLFragmentSpread.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInlineFragment.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInlineFragment.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInputObjectTypeDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInputObjectTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInputValueDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInputValueDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInterfaceTypeDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLInterfaceTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLListType.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLListType.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLListValue.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLListValue.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLLocation">
+            <summary>
+            Provides information regarding the location of a node within a document's original text.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLLocation.Start">
+            <summary>
+            The index for the start of the node in the source (i.e. it's inclusive).
+            <br/>
+            For example:
+            <code>
+            { field { subfield } }
+            <br/>
+            --^ field.Location.Start = 2
+            </code>
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLLocation.End">
+            <summary>
+            The index for the character immediately after the node in the source (i.e. it's exclusive).
+            <br/>
+            For example:
+            <code>
+            { field { subfield } }
+            <br/>
+            --------------------^ field.Location.End = 20
+            </code>
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.Equals(GraphQLParser.AST.GraphQLLocation)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.op_Equality(GraphQLParser.AST.GraphQLLocation,GraphQLParser.AST.GraphQLLocation)">
+            <summary>
+            Indicates whether one object is equal to another object of the same type.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLLocation.op_Inequality(GraphQLParser.AST.GraphQLLocation,GraphQLParser.AST.GraphQLLocation)">
+            <summary>
+            Indicates whether one object is not equal to another object of the same type.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLName">
+            <inheritdoc cref="F:GraphQLParser.AST.ASTNodeKind.Name"/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLName.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLName.Value">
+            <summary>
+            Name value represented as <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLNamedType.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLNamedType.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLNamedType.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLNonNullType.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLNonNullType.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLObjectField.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLObjectField.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLObjectTypeDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLObjectTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLObjectValue.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLOperationDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLOperationDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLOperationDefinition.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLOperationTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLScalarTypeDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLScalarTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="T:GraphQLParser.AST.GraphQLScalarValue">
+            <summary>
+            Scalar nodes represent primitive leaf values in a GraphQL document.
+            <br/>
+            There are 6 kinds of scalar nodes:
+            <br/>
+            <see cref="F:GraphQLParser.AST.ASTNodeKind.StringValue">String</see>
+            <br/>
+            <see cref="F:GraphQLParser.AST.ASTNodeKind.BooleanValue">Boolean</see>
+            <br/>
+            <see cref="F:GraphQLParser.AST.ASTNodeKind.IntValue">Int</see>
+            <br/>
+            <see cref="F:GraphQLParser.AST.ASTNodeKind.FloatValue">Float</see>
+            <br/>
+            <see cref="F:GraphQLParser.AST.ASTNodeKind.EnumValue">Enumeration</see>
+            <br/>
+            <see cref="F:GraphQLParser.AST.ASTNodeKind.NullValue">Null</see>
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLScalarValue.#ctor(GraphQLParser.AST.ASTNodeKind)">
+            <summary>
+            Creates scalar node with the specified kind.
+            </summary>
+            <param name="kind">One of six kinds of scalar nodes.</param>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLScalarValue.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLScalarValue.Value">
+            <summary>
+            Scalar value represented as <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.AST.GraphQLScalarValue.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLSchemaDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLSchemaDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLSelectionSet.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLTypeDefinition.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLTypeExtensionDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLUnionTypeDefinition.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLUnionTypeDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLVariable.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLVariable.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:GraphQLParser.AST.GraphQLVariableDefinition.Kind">
+            <inheritdoc/>
+        </member>
+        <member name="T:GraphQLParser.AST.IHasDirectivesNode">
+            <summary>
+            Represents an AST node that may have directives applied to it (type, argument, field, enum, etc.).
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.IHasDirectivesNode.Directives">
+            <summary>
+            Directives of the node represented as a list of nested nodes.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.AST.INamedNode">
+            <summary>
+            Represents an AST node that has a name (type, argument, directive, field, operation, variable, etc.).
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.AST.INamedNode.Name">
+            <summary>
+            Name of the node represented as a nested node.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.AST.OperationType">
+            <summary>
+            An enumeration of the GraphQL operation types.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.OperationType.Query">
+            <summary>
+            A query operation.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.OperationType.Mutation">
+            <summary>
+            A mutation operation.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.AST.OperationType.Subscription">
+            <summary>
+            A subscription operation.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.Exceptions.GraphQLSyntaxErrorException">
+            <summary>
+            An exception representing a GraphQL document syntax error.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Exceptions.GraphQLSyntaxErrorException.Description">
+            <summary>
+            Error description.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Exceptions.GraphQLSyntaxErrorException.Line">
+            <summary>
+            The line number on which the symbol that caused the error is located.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Exceptions.GraphQLSyntaxErrorException.Column">
+            <summary>
+            The column number on which the symbol that caused the error is located.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.Exceptions.GraphQLSyntaxErrorException.#ctor(System.String,GraphQLParser.ROM,System.Int32)">
+            <summary>
+            Initializes a new instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.IgnoreOptions">
+            <summary>
+            Options to selectively ignore some information when parsing GraphQL document.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.IgnoreOptions.IgnoreComments">
+            <summary>
+            Specifies whether to ignore comments when parsing GraphQL document.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.IgnoreOptions.IgnoreCommentsAndLocations">
+            <summary>
+            Specifies whether to ignore comments and token locations when parsing GraphQL document.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.IgnoreOptions.None">
+            <summary>
+            No information is ignored.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.Lexer">
+            <summary>
+            Lexer for GraphQL syntax.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.Lexer.Lex(GraphQLParser.ROM,System.Int32)">
+            <summary>
+            Generates token based on input text.
+            </summary>
+            <param name="source">Input data as a sequence of characters.</param>
+            <param name="start">The index in the source at which to start searching the token.</param>
+            <returns>Found token.</returns>
+        </member>
+        <member name="T:GraphQLParser.Location">
+            <summary>
+            Provides the ability to decode a linear character position into a line and column number.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.Location.#ctor(GraphQLParser.ROM,System.Int32)">
+            <summary>
+            Creates location from a given sequence of characters and a linear character position.
+            </summary>
+            <param name="source">Input data as a sequence of characters.</param>
+            <param name="position">Linear character position in the <paramref name="source"/>.</param>
+        </member>
+        <member name="P:GraphQLParser.Location.Column">
+            <summary>
+            The column number on which the character is located.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Location.Line">
+            <summary>
+            The line number on which the character is located.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.Parser">
+            <summary>
+            Parser for GraphQL syntax.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.Parser.Parse(GraphQLParser.ROM,GraphQLParser.ParserOptions)">
+            <summary>
+            Generates AST based on input text.
+            </summary>
+            <param name="source">Input data as a sequence of characters.</param>
+            <param name="options">Parser options.</param>
+            <returns>AST (Abstract Syntax Tree) for GraphQL document.</returns>
+        </member>
+        <member name="M:GraphQLParser.ParserContext.ParseDirectiveDefinition">
+            <summary>
+            http://spec.graphql.org/draft/#DirectiveDefinition
+            DirectiveDefinition:
+                Description(opt) directive @ Name ArgumentsDefinition(opt) repeatable(opt) on DirectiveLocations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GraphQLParser.ParserExtensions">
+            <summary>
+            Extension methods for parsing GraphQL documents.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.ParserOptions">
+            <summary>
+            Parser options.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.ParserOptions.Ignore">
+            <summary>
+            Options to selectively ignore some information when parsing GraphQL document.
+            By default, all comments are ignored.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.ROM">
+            <summary>
+            A wrapper around ReadOnlyMemory{char} allowing you to use simple syntax when working with it.
+            <br/>
+            Marshal.SizeOf(ROM) = Marshal.SizeOf(ReadOnlyMemory{char}) = 16
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.#ctor(System.ReadOnlyMemory{System.Char})">
+            <summary>
+            Wraps an instance of <see cref="T:System.ReadOnlyMemory`1"/>.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.ROM.Length">
+            <inheritdoc cref="P:System.ReadOnlyMemory`1.Length"/>
+        </member>
+        <member name="P:GraphQLParser.ROM.IsEmpty">
+            <inheritdoc cref="P:System.ReadOnlyMemory`1.IsEmpty"/>
+        </member>
+        <member name="P:GraphQLParser.ROM.Span">
+            <inheritdoc cref="P:System.ReadOnlyMemory`1.Span"/>
+        </member>
+        <member name="M:GraphQLParser.ROM.Slice(System.Int32)">
+            <inheritdoc cref="M:System.ReadOnlyMemory`1.Slice(System.Int32)"/>
+        </member>
+        <member name="M:GraphQLParser.ROM.Slice(System.Int32,System.Int32)">
+            <inheritdoc cref="M:System.ReadOnlyMemory`1.Slice(System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:GraphQLParser.ROM.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.ROM.Equals(GraphQLParser.ROM)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.ROM.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.ROM.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Implicit(System.ReadOnlyMemory{System.Char})~GraphQLParser.ROM">
+            <summary>
+            Implicitly casts ReadOnlyMemory&lt;char&gt; to <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Implicit(GraphQLParser.ROM)~System.ReadOnlyMemory{System.Char}">
+            <summary>
+            Implicitly casts <see cref="T:GraphQLParser.ROM"/> to ReadOnlyMemory&lt;char&gt;.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Implicit(GraphQLParser.ROM)~System.ReadOnlySpan{System.Char}">
+            <summary>
+            Implicitly casts <see cref="T:GraphQLParser.ROM"/> to ReadOnlySpan&lt;char&gt;.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Implicit(System.Memory{System.Char})~GraphQLParser.ROM">
+            <summary>
+            Implicitly casts Memory&lt;char&gt; to <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Implicit(System.String)~GraphQLParser.ROM">
+            <summary>
+            Implicitly casts string to <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Explicit(GraphQLParser.ROM)~System.String">
+            <summary>
+            Explicitly casts <see cref="T:GraphQLParser.ROM"/> to string.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Implicit(System.Char[])~GraphQLParser.ROM">
+            <summary>
+            Implicitly casts array of chars to <see cref="T:GraphQLParser.ROM"/>.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Equality(GraphQLParser.ROM,GraphQLParser.ROM)">
+            <summary>
+            Checks two ROMs for equality. The check is based on the actual contents of the two chunks of memory.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Inequality(GraphQLParser.ROM,GraphQLParser.ROM)">
+            <summary>
+            Checks two ROMs for inequality. The check is based on the actual contents of the two chunks of memory.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Equality(GraphQLParser.ROM,System.String)">
+            <summary>
+            Checks ROM and string for equality. The check is based on the actual contents of the two chunks of memory.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Inequality(GraphQLParser.ROM,System.String)">
+            <summary>
+            Checks ROM and string for inequality. The check is based on the actual contents of the two chunks of memory.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Equality(System.String,GraphQLParser.ROM)">
+            <summary>
+            Checks string and ROM and for equality. The check is based on the actual contents of the two chunks of memory.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.ROM.op_Inequality(System.String,GraphQLParser.ROM)">
+            <summary>
+            Checks string and ROM and for inequality. The check is based on the actual contents of the two chunks of memory.
+            </summary>
+        </member>
+        <member name="T:GraphQLParser.Token">
+            <summary>
+            Represents a lexical token within GraphQL document.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.Token.#ctor(GraphQLParser.TokenKind,GraphQLParser.ROM,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance with the specified properties.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Token.Kind">
+            <summary>
+            Kind of token.
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Token.Start">
+            <summary>
+            The index for the start of the token in the source (i.e. it's inclusive).
+            <br/>
+            For example:
+            <code>
+            { field { subfield } }
+            <br/>
+            --^ Start = 2
+            </code>
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Token.End">
+            <summary>
+            The index for the character immediately after the token in the source (i.e. it's exclusive).
+            <br/>
+            For example:
+            <code>
+            { field { subfield } }
+            <br/>
+            --------------------^ End = 20
+            </code>
+            </summary>
+        </member>
+        <member name="P:GraphQLParser.Token.Value">
+            <summary>
+            Token value represented as a contiguous region of memory.
+            </summary>
+        </member>
+        <member name="M:GraphQLParser.Token.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:GraphQLParser.TokenKind">
+            <summary>
+            GraphQL token kind.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.EOF">
+            <summary>
+            End of file.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.BANG">
+            <summary>
+            !
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.DOLLAR">
+            <summary>
+            $
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.PAREN_L">
+            <summary>
+            (
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.PAREN_R">
+            <summary>
+            )
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.SPREAD">
+            <summary>
+            ...
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.COLON">
+            <summary>
+            :
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.EQUALS">
+            <summary>
+            =
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.AT">
+            <summary>
+            @
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.BRACKET_L">
+            <summary>
+            [
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.BRACKET_R">
+            <summary>
+            ]
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.BRACE_L">
+            <summary>
+            {
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.PIPE">
+            <summary>
+            |
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.BRACE_R">
+            <summary>
+            }
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.NAME">
+            <summary>
+            Named thing inside GraphQL document: operations, fields, arguments, types, directives, fragments, and variables.
+            <br/>
+            All names must follow the same grammatical form: [_A-Za-z][_0-9A-Za-z]*
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.INT">
+            <summary>
+            An integer number is specified without a decimal point or exponent (ex. 1).
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.FLOAT">
+            <summary>
+            A Float number includes either a decimal point (ex. 1.0) or an exponent (ex. 1e50) or both (ex. 6.0221413e23).
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.STRING">
+            <summary>
+            Strings are sequences of characters wrapped in double‐quotes ("). (ex. "Hello World").
+            White space and other otherwise‐ignored characters are significant within a string value.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.COMMENT">
+            <summary>
+            GraphQL source documents may contain single‐line comments, starting with the # marker.
+            A comment can contain any Unicode code point except LineTerminator so a comment always
+            consists of all code points starting with the # character up to but not including the line terminator.
+            Comments behave like white space and may appear after any token, or before a line terminator,
+            and have no significance to the semantic meaning of a GraphQL Document.
+            </summary>
+        </member>
+        <member name="F:GraphQLParser.TokenKind.UNKNOWN">
+            <summary>
+            Unknown token. Something went wrong.
+            </summary>
+        </member>
+    </members>
+</doc>
