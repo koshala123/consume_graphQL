@@ -5,7 +5,6 @@ C:\Users\aaron\source\repos\webApiRequest\webApiRequest\bin\Debug\Newtonsoft.Jso
 C:\Users\aaron\source\repos\webApiRequest\webApiRequest\bin\Debug\System.Net.Http.Formatting.dll
 C:\Users\aaron\source\repos\webApiRequest\webApiRequest\bin\Debug\Newtonsoft.Json.xml
 C:\Users\aaron\source\repos\webApiRequest\webApiRequest\bin\Debug\System.Net.Http.Formatting.xml
-C:\Users\aaron\source\repos\webApiRequest\webApiRequest\obj\Debug\webApiRequest.csprojAssemblyReference.cache
 C:\Users\aaron\source\repos\webApiRequest\webApiRequest\obj\Debug\webApiRequest.csproj.CoreCompileInputs.cache
 C:\Users\aaron\source\repos\webApiRequest\webApiRequest\obj\Debug\webApiRequest.csproj.CopyComplete
 C:\Users\aaron\source\repos\webApiRequest\webApiRequest\obj\Debug\webApiRequest.exe

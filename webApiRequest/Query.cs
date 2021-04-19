@@ -4,9 +4,6 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using ModernHttpClient;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace webApiRequest
@@ -39,13 +36,8 @@ namespace webApiRequest
                 var response = await graphQLHttpClient.SendQueryAsync<object>(request);
 
                 var stringResult = response.Data.ToString();
-                //Console.WriteLine(stringResult);
                 stringResult = stringResult.Replace($"\"{graphQLQueryType}\":", string.Empty);
                 Console.WriteLine(stringResult);
-                //stringResult = stringResult.Remove(0, 1);
-                //Console.WriteLine(stringResult);
-                //stringResult = stringResult.Remove(stringResult.Length - 1, 1);
-                //Console.WriteLine(stringResult);
 
                 var result = JsonConvert.DeserializeObject<Root>(stringResult);
 
